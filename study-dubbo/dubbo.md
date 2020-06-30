@@ -18,3 +18,12 @@ Dubbo的架构包括：Provider(服务提供方)、Container（服务运行的�
 为了做一个Dubbo的基础样例，我需要构建以下几个环境：
 1、基于SpringBoot+Dubbo的基础项目，包含consumer和provider
 2、Zookeeper service in Docker
+
+#Dubbo Demo
+springboot-dubbo-provider 模拟服务提供方
+    提供方法ProviderService#toUpper
+    使用注解@Service(interfaceClass = ProviderService.class),注意，该注解的依赖来自于import com.alibaba.dubbo.config.annotation.Service而不是常规的org.springframework.stereotype.Service
+    在Application上添加@EnableDubboConfiguration注解，并在application.yml中配置注册中心和扫描服务的位置
+springboot-dubbo-comsumer 模拟服务消费方
+    使用@Reference注解注入ProviderService的bean实例，然后直接调用，在provider的console中能看到服务被成功调用
+两者均配置了spring.dubbo.register.address: zookeeper://127.0.0.1:2181(本地docker环境中的zk节点)
